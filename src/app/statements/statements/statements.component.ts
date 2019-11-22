@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as Chart from 'chart.js';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-statements',
@@ -8,7 +9,10 @@ import * as Chart from 'chart.js';
 })
 export class StatementsComponent implements OnInit {
   @ViewChild('chart', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
+  statements$= null;
+
+
 
   moneyChart: Chart;
   ngAfterViewInit() {
@@ -24,7 +28,7 @@ export class StatementsComponent implements OnInit {
             label: "Hauteur d'eau",
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',
-            data: [3,4,3,5,5,4,3,5]
+            data: [1,4,3,5,5.2,4,3,5]
           }
         ]
       },
@@ -42,6 +46,7 @@ export class StatementsComponent implements OnInit {
   
   }
   ngOnInit() {
+    this.statements$ = this.httpClient.get<any[]>('http://localhost:3000/statements')
   }
 
 
